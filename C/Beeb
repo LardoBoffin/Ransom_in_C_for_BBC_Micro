@@ -1,0 +1,32 @@
+/* Beeb functions */
+
+void mode(int m)
+{
+/* direct call to oswrch via kernel.h */
+ _kernel_oswrch(22);
+ _kernel_oswrch(m);
+}
+
+void moveCursor(int x, int y)
+{
+ _kernel_oswrch(31);
+ _kernel_oswrch(x);
+ _kernel_oswrch(y);
+}
+
+void oscli(char s[])
+{
+ _kernel_oscli(s);
+
+}
+
+int pos(int xy)
+{
+ int retVal;
+ retVal=_kernel_osbyte(134,0,0);
+ /* 8*0 = LSB, 8*1 =MSB */
+ return (retVal >> (8*xy)) & 0xff;
+}
+
+
+

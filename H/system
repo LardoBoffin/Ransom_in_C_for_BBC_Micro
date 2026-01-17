@@ -1,0 +1,87 @@
+/* Main System header */
+
+#define true 1
+#define false 0
+#define counterSize 256
+#define true 1
+#define false 0
+#define STRINGSIZE 256
+#define WORDSIZE 50
+#define YouAreCarrying 1
+#define WhatNow 2
+#define YouCant 3
+#define Pardon 4
+#define YouDontHaveIt 8
+#define TooHeavy 10
+#define ItIsDark 13
+#define CantFindThat 14
+#define YouCanAlsoSee 15
+#define Okay 16
+#define Nothing 18
+#define numSysMessages 52
+#define XPOS 0
+#define YPOS 1
+#define MODE 0
+#define modeZero 80
+#define modeSeven 39
+#define VERB 1
+#define NOUN 2
+#define ADVERB 3
+
+
+extern int debug,enc,turn,room,andActive,clear;
+extern char *objectList,andMessage[STRINGSIZE];
+extern int playerLocation,achn,cw,exitFlag;
+extern const char messageLoc[];
+extern const char messageIndexLoc[];
+extern const char nounLoc[];
+extern const char verbLoc[];
+extern const char adverbLoc[];
+extern const char roomLoc[];
+extern const char achievementLoc[];
+extern const char objectLoc[];
+extern const char roomIndexLoc[];
+extern const char achievementIndexLoc[];
+extern int screenWidth,nounNumber,verb,noun,verbNumber,adverbNumber,objn;
+extern char *ach,*nouns,*verbs,*adverbs;
+extern char *sysMessages;
+extern char message[STRINGSIZE];
+
+
+
+/* Main functions */
+void saveGame(void);
+void loadGame(void);
+void showMessage(int);
+void reverse(char *, int, int);
+void reverseUpper(char *, int, int);
+void moveCursor(int,int);
+int again(void);
+void listObjects(int,int);
+void roomMessage(int);
+int objectLocation(int);
+void reverse(char *,int,int);
+void reverseUpper(char *,int,int);
+void toUpperCase(char *);
+void cls(void);
+void hold(int);
+int checkMove(void);
+void initialiseGame(void);
+void exitGame(void);
+void preRoom(void);
+void roomMessage(int );
+int highPriority(void);
+int lowPriority(void);
+void showMessage(int);
+void setAchievement(int);
+
+void gotoRoom(int);
+void takeObject(int);
+void dropObject(int);
+void showInventory(void);
+void showAchievements(void);
+void getRoom(int);
+
+#include "system.c"
+#include "gCode.h"
+
