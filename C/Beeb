@@ -1,5 +1,29 @@
 /* Beeb functions */
 
+
+void vdu25(int,int,int);
+void mode(int);
+void moveCursor(int,int);
+void tab(int,int);   
+void moveXY(int,int);
+void origin(int,int);
+void line(int,int);
+void drawLine(int,int,int,int);       
+void drawBox(int,int,int,int);
+void gcol(int,int);
+void lcol(int,int);
+int inkey(int,int);
+void cursorEdit(int);
+void cursorOff(void);
+void textWindow(int,int,int,int);
+void graphWindow(int,int,int,int);
+void mode(int m);
+
+#define LINECOLOUR 2
+#define HIGHLIGHTCOLOUR 3     
+
+int curX,curY;
+
 void mode(int m)
 {
 /* direct call to oswrch via kernel.h */
@@ -20,6 +44,23 @@ void oscli(char s[])
 
 }
 
+void cursorEdit(int on)
+{
+   _kernel_osbyte(4,on,0);
+}
+
+void vdu(int code)
+{
+  _kernel_oswrch(code);
+}
+
+void vdu25(int t,int x,int y)
+{
+   _kernel_oswrch(25);_kernel_oswrch(t);
+   _kernel_oswrch(x%256);_kernel_oswrch(x/256);
+   _kernel_oswrch(y%256);_kernel_oswrch(y/256);
+}  
+
 int pos(int xy)
 {
  int retVal;
@@ -28,5 +69,101 @@ int pos(int xy)
  return (retVal >> (8*xy)) & 0xff;
 }
 
+int inkey(int lsb,int msb)
+{  
+   int result;
+   _kernel_osbyte(15,1,0);result=_kernel_osbyte(129,lsb,msb);
+   msb = (result >> (8*1)) & 0xFF;
+   if (msb==0)
+   {
+    lsb = (result >> (8*0)) & 0xFF;return(lsb);
+   }else
+   {return(0);}
+}
 
+void tab(int x, int y)
+{
+  _kernel_oswrch(31);_kernel_oswrch(x);_kernel_oswrch(y);
+}
 
+void cursorOff()
+{
+  _kernel_oswrch(23);_kernel_oswrch(0);_kernel_oswrch(10);
+  _kernel_oswrch(32);_kernel_oswrch(0);_kernel_oswrch(0);
+  _kernel_oswrch(0);_kernel_oswrch(0);_kernel_oswrch(0);
+  _kernel_oswrch(0);
+}
+
+void moveXY(int x,int y)
+{
+ vdu25(4,x,y);
+}             
+
+void origin(int x,int y)
+{
+  moveXY(x,y);
+  curX=x;
+  curY=y;
+}
+
+void movePen(int angle, int length)
+{
+   if (angle==0){curY=curY+length;}
+   if (angle==90){curX=curX+length;}
+   if (angle==180){curY=curY-length;}
+   if (angle==270){curX=curX-length;}
+}
+
+void line(int angle,int length)
+{   
+ /*int l;*/
+ moveXY(curX,curY);
+
+ if (angle==0)
+  {
+    vdu25(1,0,length);
+    curY=curY+length;
+  }
+ if (angle==90)
+  {
+    vdu25(1,length,0);
+    curX=curX+length;
+  }                   
+ if (angle==180)
+  {    
+    moveXY(curX,curY-length);vdu25(1,0,length);
+    curY=curY-length;
+   }
+ if (angle==270)
+  {
+    moveXY(curX-length,curY);vdu25(1,length,0);
+    curX=curX-length;
+  }
+}            
+
+void drawLine(int x,int y,int ex,int ey)
+{
+ vdu25(4,x,y);vdu25(5,ex,ey);
+}                    
+
+void drawBox(int x,int y,int w, int h)
+{
+ moveXY(x,y);
+ vdu25(5,w+x,y);vdu25(5,w+x,h);vdu25(5,x,h);vdu25(5,x,y);
+}    
+
+void lcol(int a, int c)
+{
+  _kernel_oswrch(19);_kernel_oswrch(a);_kernel_oswrch(c);_kernel_oswrch(0);
+  _kernel_oswrch(0);_kernel_oswrch(0);
+}
+
+void gcol(int a,int c)
+{
+  _kernel_oswrch(18);_kernel_oswrch(a);_kernel_oswrch(c);
+}
+
+void clg()
+{
+  _kernel_oswrch(16);
+}   
