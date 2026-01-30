@@ -85,8 +85,8 @@ int highPriority()
 	//enum Counters counter;
 
    if (isOn(ISDARK)==true && isOn(LAMP)==false) {dec(LEFTINTHEDARK);}
-   if (isOn(ISDARK)==true && isOn(LAMP)==false && get(4)==1){showMessage(38);}
-   if (isOn(ISDARK)==true && isOn(LAMP)==false && get(4)==0)
+   if (isOn(ISDARK)==true && isOn(LAMP)==false && get(LEFTINTHEDARK)==1){showMessage(38);}
+   if (isOn(ISDARK)==true && isOn(LAMP)==false && get(LEFTINTHEDARK)==0)
    {
       /*killed by schelob */
       hold(500);
@@ -96,7 +96,7 @@ int highPriority()
       exitGame();
       return true;
    }
-   if (room==3 && available(2,room)==false && isOn(3)==false)
+   if (room==3 && available(2,room)==false && isOn(RATFED)==false)
    {
       /*killed by the snake*/
       hold(50);
