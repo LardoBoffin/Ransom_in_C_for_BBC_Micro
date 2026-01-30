@@ -1,4 +1,43 @@
-/* Game code    */
+/* Game code    
+
+--game code accessible functions
+
+--general
+void showMessage(int number)						- display the message (number)
+void cls()											- clear the screen
+void hold(int duration)								- pause for an amount of time
+void showAchievements()								- show cool things done so far
+void setAchievement(int achievementNum)				- set achievement to active
+void gotoRoom(int roomNumber)						- move player to room (roomNumber)
+void exitGame()										- finish the game
+
+--counter functions
+void dec(int counter) 								- decrease the counter by 1. Won't go below 0.
+void inc(int counter) 								- increase the counter by 1. Won't go above 255.
+int get(int counter) 								- returns the value of the counter.
+int isOn(int number) 								- returns false if 0, true if not zero.
+void set(int counter,int value)						- sets the counter to the value.
+void on(int number)									- sets the counter to 1.
+void off(int number)								- sets the counter to 0.
+
+--inv and encumberance
+void setMaxEnc(int maxEnc)							- set maximum encumberance to the value.
+int objectWeight(int number)						- returns the weight of the object
+int objectMessage(int number)						- returns the message number associated with the object number
+int objectLocation(int number)						- gets the location id of the object
+void setObjectLocation(int number, int location) 	- sets the location id (room number) of the object
+int objectHere(int number,int roomNumber)			- checks if the object (number) is in the room (roomNumber) and returns message if it is
+int here(int number, int roomNumber)				- returns true if the object (number) is in the room (roomNumber) otherwise returns false
+int inInv(int number)								- checks if the object (number) is in the players inv
+int available(int number,int roomNumber)			- checks if the object (number) is either in the players inv or the current room
+void swapObject(int number1,int number2)			- moves object 1 to the bin (room 0) and object to inv (player location)
+void moveObject(int number, int roomNumber)			- moves object (number) to room (roomNumber), seems to be a duplicate of setObjectLocation...
+void takeObject(int number)							- check to see if the player can take the object (number), if so move to inv
+void dropObject(int number)							- drop object (number)
+void showInventory()								- lists objects in inv (player location)
+void find(int object)								- get location of object (object) and move player to it
+
+*/
 
 int highPriority()
 {
@@ -90,6 +129,3 @@ int lowPriority()
 
    return false;
 }
-
-
-
