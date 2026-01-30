@@ -67,6 +67,47 @@ void dropObject(int number)
 
 }
 
+/*----------------- display functions -------------------*/
+
+
+void showMessage(int number)
+{
+   /* load and display a message*/
+
+   int x,xpos,slen,wl,printLoop;
+
+   getMessage(number);
+   slen=strlen(message);
+   xpos=pos(XPOS); /*position across screen */
+
+   x=0;
+
+   while (x<slen){
+     wl=0;
+
+     /* get the next word (or end of string)*/
+     while (message[x+wl]!=' ' && x+wl < slen)
+     {wl++;}
+
+     if (xpos + wl > screenWidth )
+     {putchar('\n');xpos=0;}
+
+     /* print out the word */
+     for (printLoop=0;printLoop<wl;printLoop++,x++)
+     {putchar(message[x]);}
+
+     xpos=xpos+wl+1;/* +1 for the space */
+
+     if (xpos < screenWidth && xpos > 0) /* no space at end or start of line*/
+	 {putchar(' ');}else{xpos--;}
+     x++;
+   }
+
+   message[0]='\0';
+
+}
+
+
 void listObjects(int roomNumber,int messageNumber)
 {
    /*lists all objects at a location */
