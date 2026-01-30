@@ -503,12 +503,6 @@ void exitGame()
 
 }
 
-void preRoom()
-{
- off(1);
- if (room==2 || room== 3 || room==6) {on(1);}
-
-}
 
 void roomMessage(int roomNumber){roomNumber=0;}
 
