@@ -14,6 +14,7 @@
 #include "beeb.h"
 #include "system.h"
 #include "fileIO.h"
+#include "char.h"
 
 const char messageLoc[] = "DATA-M";
 const char nounLoc[]= "DATA-N";
@@ -106,7 +107,6 @@ void showMessage(int number)
    message[0]='\0';
 
 }
-
 
 void listObjects(int roomNumber,int messageNumber)
 {
@@ -233,7 +233,7 @@ void getRoom(int roomNumber)
 
      if (dark==false)
      {
-       roomMessage(roomNumber);
+       //roomMessage(roomNumber);
        listObjects(roomNumber,YouCanAlsoSee);
      }
 }
@@ -491,8 +491,11 @@ int main()
 void initialiseGame()
 {
   /* set any variables here */
-  set(4,3);
-  setMaxEnc(110);
+  
+	set(4,3);
+	setMaxEnc(110);  
+	createChar();
+
 }
 
 void exitGame()
@@ -500,11 +503,9 @@ void exitGame()
    exitFlag=1;
    if (pos(XPOS)>0) {putchar('\n');}
    showAchievements();
-
 }
 
-
-void roomMessage(int roomNumber){roomNumber=0;}
+//void roomMessage(int roomNumber){roomNumber=0;}
 
 int checkMove()
 {
