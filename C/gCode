@@ -167,7 +167,8 @@ int lowPriority()
       return true;
    }
 
-   if (verb==22) {showAchievements();return true;}
+   if (verb==22) {showCharacter();return true;}
+   
 
    return false;
 }
