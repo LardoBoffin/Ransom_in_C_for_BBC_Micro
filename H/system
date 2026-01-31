@@ -81,6 +81,13 @@ void dropObject(int);
 void showInventory(void);
 void showAchievements(void);
 void getRoom(int);
+/* character related functions*/
+int getStat(int);
+void setStat(int,int);
+void showCharacter(void);
+void createChar(void);
+int getXP(void);
+void increaseXP(int);
 
 #include "system.c"
 #include "gCode.h"
