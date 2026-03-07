@@ -3,7 +3,6 @@
 
 /* Lardo Boffin */
 /* Version alpha  */
-/*achievements need to be sorted for file loc */
 
 #include <stdio.h>
 #include <kernel.h>
@@ -21,11 +20,9 @@ const char nounLoc[]= "DATA-N";
 const char verbLoc[]= "DATA-V";
 const char adverbLoc[]= "DATA-A";
 const char roomLoc[]="DATA-R";
-const char achievementLoc[]="DATA-C";
 const char objectLoc[]="data-o";
 const char messageIndexLoc[]="IDX-M";
 const char roomIndexLoc[]="IDX-R";
-const char achievementIndexLoc[]="IDX-C";
 
 int noun,noun2,oldNoun,verb,adverb,object,turn,room,objn,achn,doneFlag;
 int nounNumber,verbNumber,adverbNumber,randomNumber,exitFlag,andActive;
@@ -33,6 +30,7 @@ int lastRoom,playerLocation,enc,cw,clear,numLinks,screenWidth;
 char *objectList,links[36],*ach,*nouns,*verbs,*adverbs,*sysMessages;
 char message[STRINGSIZE],word[WORDSIZE],andMessage[STRINGSIZE];
 int debug;
+int numSysMessages;
 
 void takeObject(int number)
 {
@@ -44,14 +42,14 @@ void takeObject(int number)
    {   showMessage(CantFindThat);andActive=false;andMessage[0]='\0';return;
    }
 
-   if (cw+objectWeight(number) > enc)
+   if (getStat(ENC)+objectWeight(number) > getStat(MAXENC))
    {showMessage(TooHeavy);andActive=false;andMessage[0]='\0';return;
    }
    setObjectLocation(number,playerLocation);
    showMessage(16);
    setTurn();
-   cw=cw+objWeight;
-   if (debug==true) {printf("Max enc %5d, carried %5d\n",enc,cw);}
+   setStat(ENC,getStat(ENC)+objWeight);
+   if (debug==true) {printf("Max enc %5d, carried %5d\n",getStat(MAXENC),getStat(ENC));}
 
 }
 
@@ -64,7 +62,8 @@ void dropObject(int number)
    setObjectLocation(number,room);
    showMessage(Okay);
    setTurn();
-   cw=cw-objectWeight(number);
+   setStat(ENC,getStat(ENC)-objectWeight(number));
+   //cw=cw-objectWeight(number);
 
 }
 
@@ -143,34 +142,6 @@ void listObjects(int roomNumber,int messageNumber)
 void showInventory()
 {
    listObjects(playerLocation,1);
-}
-
-/*--------------- achievements -------------------*/
-
-void showAchievements()
-{
-  int c,i,messageNum;
-  putchar('\n');
-  showMessage(51);
-  c=0;
-  for(i=0;i<achn;i++)
-  {
-     if (ach[i]==1)
-     {
-       messageNum=(int)readIndex(i,"data-c");
-       putchar('\n');
-       showMessage(messageNum);
-       c++;
-     }
-  }
-  if (c==0){showMessage(52);}
-
-}
-
-void setAchievement(int achievementNum)
-{
-  ach[achievementNum]=1;
-  saveAchievements();
 }
 
 /*------------------ room code ---------------*/
@@ -390,7 +361,8 @@ void parseText()
           {noun2=parseWord(NOUN);}
 
    }
-   if (debug==true)                                                                {
+   if (debug==true)                                                                
+   {
      printf("Verb %2d",verb);
      printf("  Noun %2d",noun);
      printf("  Old Noun %2d",oldNoun);
@@ -403,6 +375,7 @@ void parseText()
 int main()
 {
     int anothergame;
+	/*int fileLen;*/
 
     if (MODE==0 || MODE==3)
      {screenWidth=modeZero;}else{screenWidth=modeSeven;}
@@ -415,17 +388,18 @@ int main()
     {
       mode(MODE);
       memset(&ctr[0],0,sizeof(ctr)); /*initialise the counter array to 0*/
-      printf("Loading data test.");
+      printf("Loading data.\n");
       if (loadObjects()> 0) { return 0;};
-      loadAchievements();
       loadWords(NOUN);
       loadWords(VERB);
       loadWords(ADVERB);
+	  numSysMessages = getSizeOfFile((char *)"IDX-M") / BytesPerIndex;
       loadSystemMessages();
 
       /*base variable values*/
       lastRoom=0;turn=0;playerLocation=10000;enc=0;cw=0;
-      puts("\nRansom - save the Kingie!\n");
+	  
+      puts("\nRansom - save the King!\n");
 
       exitFlag=false;
       room=1;
@@ -502,7 +476,6 @@ void exitGame()
 {
    exitFlag=1;
    if (pos(XPOS)>0) {putchar('\n');}
-   showAchievements();
 }
 
 //void roomMessage(int roomNumber){roomNumber=0;}

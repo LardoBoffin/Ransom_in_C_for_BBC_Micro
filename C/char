@@ -1,5 +1,5 @@
 /* character data and functions */
-#define numOfChars 14
+#define numOfChars 21
 
 /*
 
@@ -39,7 +39,14 @@ enum Stats
 	HPADJUSTED = 11,
 	MP  = 12,
 	MPBASE = 13,
-	MPADJUSTED = 14
+	MPADJUSTED = 14,
+	HUNGER = 15,
+	THIRST = 16,
+	COLD = 17,
+	WET = 18,
+	TIRED = 19,
+	ENC = 20,
+	MAXENC = 21
 };
 
 char statistics[numOfChars];
@@ -73,8 +80,14 @@ void showCharacter()
 	printf("LVL %2d\n",getStat(LVL));
 	printf("XP  %2d\n",getXP());
 	printf("HP  %2d/%2d,MP %2d/%2d\n",getStat(HP),getStat(HPADJUSTED),getStat(MP),getStat(MPADJUSTED));
+	printf("ENC %2d",getStat(ENC));
 	printf("\n");
-	showMessage(1);
+	showInventory();
+}
+
+void setMaxEnc(int maxEnc)
+{
+  enc=maxEnc;
 }
 
 void createChar()
@@ -91,6 +104,13 @@ void createChar()
 	setStat(HPADJUSTED,getStat(HP));
 	setStat(MP,getStat(POW));
 	setStat(MPADJUSTED,getStat(MP));
+	setStat(HUNGER,0);
+	setStat(THIRST,0);
+	setStat(WET,0);
+	setStat(COLD,0);
+	setStat(TIRED,0);
+	setStat(ENC,0);
+	setStat(MAXENC,getStat(STR)*10);
 	XP=0;
 	
 }

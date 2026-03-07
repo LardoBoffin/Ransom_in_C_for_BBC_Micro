@@ -55,10 +55,12 @@ void off(int number)
 }
 
 /*-------------------- object based functions ---------------*/
+/*
 void setMaxEnc(int maxEnc)
 {
   enc=maxEnc;
 }
+*/
 
 int setTurn()
 {turn++;return turn;}
@@ -225,7 +227,6 @@ void hold(int duration)
   {
     t=p*10;t=p/10;
   }
-
 }
 
 
